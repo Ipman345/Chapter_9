@@ -123,7 +123,7 @@ class BJ_Game(object):
 
     def __additional_cards(self, player):
         while not player.is_busted() and player.is_hitting():
-           if self.deck == 0:
+            if self.deck == 0:
                 self.deck = BJ_Deck()
                 self.deck.populate()
                 self.deck.shuffle()

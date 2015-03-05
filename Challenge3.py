@@ -19,7 +19,7 @@ class BJ_Card(cards.Card):
 
 class BJ_Deck(cards.Deck):
     """ A Blackjack Deck. """
-    def populate(self):
+    def populate(self):bet = BJ_Player(name).betting(pari)
         for suit in BJ_Card.SUITS: 
             for rank in BJ_Card.RANKS: 
                 self.cards.append(BJ_Card(rank, suit))
@@ -68,10 +68,21 @@ class BJ_Hand(cards.Hand):
 
 class BJ_Player(BJ_Hand):
     """ A Blackjack Player. """
+
     def is_hitting(self):
         response = games.ask_yes_no("\n" + self.name + ", do you want a hit? (Y/N): ")
         return response == "y"
 
+    def is_betting(self):
+        response = games.ask_yes_no("\n" + self.name + ", do you want to bet? (Y/N): ")
+        if responce =="y":
+            bet = input("Enter how much you want to bet: ")
+            if bet > self.bankroll:
+                while bet > self.bankroll:
+                    bet=input("Enter an amount that is equal too or less than "+self.bankroll+":")
+            else:
+                self.pot+=bet
+        
     def bust(self):
         print(self.name, "busts.")
         self.lose()
@@ -80,7 +91,7 @@ class BJ_Player(BJ_Hand):
         print(self.name, "loses.")
 
     def win(self):
-        print(self.name, "wins.")
+        print(self.name, "wins the pot:",POT )
 
     def push(self):
         print(self.name, "pushes.")
@@ -123,7 +134,7 @@ class BJ_Game(object):
 
     def __additional_cards(self, player):
         while not player.is_busted() and player.is_hitting():
-           if self.deck == 0:
+            if self.deck == 0:
                 self.deck = BJ_Deck()
                 self.deck.populate()
                 self.deck.shuffle()
